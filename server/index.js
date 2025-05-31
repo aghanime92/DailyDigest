@@ -18,7 +18,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://accounts.google.com'],
+  credentials: true,
+  methods: ['GET', 'POST', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -50,7 +55,8 @@ app.get('/api/auth/gmail/url', (req, res) => {
   const url = oauth2Client.generateAuthUrl({
     access_type: 'offline',
     scope: scopes,
-    prompt: 'consent' // Always prompt for consent to ensure refresh token is returned
+    prompt: 'consent', // Always prompt for consent to ensure refresh token is returned
+    include_granted_scopes: true
   });
 
   console.log('Generated Auth URL:', url);

@@ -5,7 +5,10 @@ const API_URL = 'http://localhost:3000/api';
 // Configure axios
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 // Get Gmail OAuth URL
