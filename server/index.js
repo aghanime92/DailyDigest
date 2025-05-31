@@ -27,10 +27,6 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// In-memory storage for connected users
-// In a production app, this would be a database
-const connectedUsers = [];
-
 // Configure OAuth2 client
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
@@ -267,6 +263,22 @@ app.delete('/api/admin/users/:id', adminAuth, async (req, res) => {
     res.json({ success: true, warning: 'User removed but token revocation may have failed' });
   }
 });
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the dist directory
+  app.use(express.static(join(__dirname, '../dist')));
+
+  // Handle client-side routing
+  app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, '../dist/index.html'));
+  });
+} else {
+  // In development, redirect root to the dev server
+  app.get('/', (req, res) => {
+    res.redirect('http://localhost:5173');
+  });
+}
 
 // Start server
 app.listen(PORT, () => {
