@@ -33,6 +33,12 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.REDIRECT_URI
 );
 
+// Log OAuth configuration
+console.log('OAuth Configuration:');
+console.log('REDIRECT_URI:', process.env.REDIRECT_URI);
+console.log('Client ID configured:', !!process.env.GOOGLE_CLIENT_ID);
+console.log('Client Secret configured:', !!process.env.GOOGLE_CLIENT_SECRET);
+
 // Generate a URL for Gmail authentication
 app.get('/api/auth/gmail/url', (req, res) => {
   const scopes = [
@@ -47,6 +53,7 @@ app.get('/api/auth/gmail/url', (req, res) => {
     prompt: 'consent' // Always prompt for consent to ensure refresh token is returned
   });
 
+  console.log('Generated Auth URL:', url);
   res.json({ url });
 });
 
