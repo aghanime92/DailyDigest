@@ -22,7 +22,7 @@ const connectedUsers = [];
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://accounts.google.com'],
+  origin: true, // Allow all origins in development
   credentials: true,
   methods: ['GET', 'POST', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
