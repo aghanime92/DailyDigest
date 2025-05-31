@@ -17,6 +17,9 @@ const __dirname = dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Initialize in-memory storage for connected users
+const connectedUsers = [];
+
 // Middleware
 app.use(cors({
   origin: ['http://localhost:5173', 'https://accounts.google.com'],
